@@ -11,11 +11,17 @@ WHITE_KEYS = ("C", "D", "E", "F", "G", "A", "B")
 BLACK_KEYS_1 = ("C#", "D#")
 BLACK_KEYS_2 = ("F#", "G#", "A#")
 
+
 class Octave:
 
     def __init__(self, num, callback):
         self.num = num
         self.callback = callback
+        whites = self.__createRow(WHITE_KEYS, WHITE_CLR)
+        blacks = self.__createBlacks()
+        self.view = gtk.Fixed()
+        self.view.put(whites, 0, 0)
+        self.view.put(blacks, 0, 0)
 
 
     def __createBtn(self, color, note):
@@ -56,15 +62,6 @@ class Octave:
         fx = gtk.Fixed()
         fx.put(row1, 16, 0)
         fx.put(row2, 32 * 3 + 16, 0)
-        return fx
-
-
-    def create(self):
-        whites = self.__createRow(WHITE_KEYS, WHITE_CLR)
-        blacks = self.__createBlacks()
-        fx = gtk.Fixed()
-        fx.put(whites, 0, 0)
-        fx.put(blacks, 0, 0)
         return fx
 
 
