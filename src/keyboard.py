@@ -11,7 +11,7 @@ def __onClick(widget, data = None):
 
 
 def create():
-    octaves = [octave.create(num, __onClick) for num in range(1, 6)]
+    octaves = [octave.Octave(num, __onClick).create() for num in range(1, 6)]
     hb = gtk.HBox(False, 2)
     [hb.pack_start(oc, False) for oc in octaves]
     return hb
