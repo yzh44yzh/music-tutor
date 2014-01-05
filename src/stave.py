@@ -22,12 +22,15 @@ class Stave:
         self.view = gtk.Fixed()
         self.view.put(STAVE_BG, 0, 0)
         self.view.put(TREBLE_CLEF, 10, 20)
-        self.showNote(3, "F")
 
         
-    def showNote(self, octave, note):
+    def showNote(self, (octave, note)):
         y = self.__get_pos(octave, note)
-        self.view.put(NOTE_1, 130, y)
+        if NOTE_1.get_parent() == None:
+            self.view.put(NOTE_1, 130, y)
+            NOTE_1.show()
+        else:
+            self.view.move(NOTE_1, 130, y)
 
 
     def __get_pos(self, octave, note):

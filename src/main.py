@@ -16,7 +16,11 @@ def onClose(widget, event, data = None):
 
 def onChangeSettings(showNotes):
     _keyboard.showNotes(showNotes)
+
     
+def onNote(note):
+    _stave.showNote(note)
+
 
 w = gtk.Window(gtk.WINDOW_TOPLEVEL)
 w.set_title("Hello :)")
@@ -25,7 +29,7 @@ w.connect("delete_event", onClose)
 
 _settings = settings.Settings(onChangeSettings)
 _stave = stave.Stave()
-_keyboard = keyboard.Keyboard()
+_keyboard = keyboard.Keyboard(onNote)
 
 hb = gtk.HBox(False, 20)
 hb.pack_start(_settings.view, False)
