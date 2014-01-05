@@ -6,13 +6,29 @@ import gtk
 import octave
 
 
-def __onClick(widget, data = None):
-    print "click", data
+class Keyboard:
+    
+    def __init__(self):
+        self.__octaves = []
 
 
-def create():
-    octaves = [octave.Octave(num, __onClick).create() for num in range(1, 6)]
-    hb = gtk.HBox(False, 2)
-    [hb.pack_start(oc, False) for oc in octaves]
-    return hb
+    def __onClick(self, widget, data = None):
+        print "click", data
+
+
+    def create(self):
+        boxes = []
+        for num in range(1, 6):
+            octaveComp = octave.Octave(num, self.__onClick)
+            self.__octaves.append(octaveComp)
+            box = octaveComp.create()
+            boxes.append(box)
+
+        hb = gtk.HBox(False, 2)
+        [hb.pack_start(box, False) for box in boxes]
+        return hb
+
+    
+    def showNotes(self, show):
+        [octave.showNotes(show) for octave in self.__octaves]
 

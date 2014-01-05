@@ -67,3 +67,6 @@ class Octave:
         fx.put(blacks, 0, 0)
         return fx
 
+
+    def showNotes(self, show):
+        print "showNotes", show, self.num
