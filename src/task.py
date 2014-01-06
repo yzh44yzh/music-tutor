@@ -24,6 +24,7 @@ WHITE_NOTES = ("C", "D", "E", "F", "G", "A", "B")
 BLACK_NOTES = ("C#", "D#", "F#", "G#", "A#", "Db", "Eb", "Gb", "Ab", "Bb")
 ALL_NOTES = WHITE_NOTES + BLACK_NOTES
 
+
 class Task:
 
     def __init__(self, callback):
@@ -62,16 +63,25 @@ class Task:
 
     def nextNote(self):
         octave = 1
-        if self.currTask in ("w2", "b2"): octave = 2
-        elif self.currTask in ("w3", "b3"): octave = 3
-        elif self.currTask in ("w4", "b4"): octave = 4
-        elif self.currTask in ("wl", "bl"): octave = random.randint(1, 2)
-        elif self.currTask in ("wr", "br"): octave = random.randint(3, 5)
-        else: octave = random.randint(1, 5)
+        if self.currTask in ("w2", "b2"):
+            octave = 2
+        elif self.currTask in ("w3", "b3"):
+            octave = 3
+        elif self.currTask in ("w4", "b4"):
+            octave = 4
+        elif self.currTask in ("wl", "bl"):
+            octave = random.randint(1, 2)
+        elif self.currTask in ("wr", "br"):
+            octave = random.randint(3, 5)
+        else:
+            octave = random.randint(1, 5)
 
         note = ""
-        if self.currTask == "all": note = random.choice(ALL_NOTES)
-        elif self.currTask[0:1] == "w": note = random.choice(WHITE_NOTES)
-        else: note = random.choice(BLACK_NOTES)
+        if self.currTask == "all":
+            note = random.choice(ALL_NOTES)
+        elif self.currTask[0:1] == "w":
+            note = random.choice(WHITE_NOTES)
+        else:
+            note = random.choice(BLACK_NOTES)
 
         return (octave, note)
