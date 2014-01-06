@@ -78,6 +78,10 @@ class Stave:
         self.note_1.set_from_file("assets/img/note_1.png")
         self.note_2 = gtk.Image()
         self.note_2.set_from_file("assets/img/note_2.png")
+        self.sharp = gtk.Image()
+        self.sharp.set_from_file("assets/img/sharp.png")
+        self.flat = gtk.Image()
+        self.flat.set_from_file("assets/img/flat.png")
         self.lb8va = gtk.Label("8va")
 
         self.view = gtk.Fixed()
@@ -90,6 +94,8 @@ class Stave:
         self.view.put(self.line_4, 130, 15)
         self.view.put(self.note_1, 10, 20)
         self.view.put(self.note_2, 10, 20)
+        self.view.put(self.sharp, 0, 0)
+        self.view.put(self.flat, 0, 0)
         self.view.put(self.lb8va, 0, 0)
 
 
@@ -102,6 +108,8 @@ class Stave:
         self.line_4.hide()
         self.note_1.hide()
         self.note_2.hide()
+        self.sharp.hide()
+        self.flat.hide()
         self.lb8va.hide()
 
         
@@ -115,7 +123,7 @@ class Stave:
         else:
             self.treble_clef.show()
 
-        position = NOTE_POSITIONS[(octave, note)]
+        position = NOTE_POSITIONS[(octave, note[0:1])]
         if position == POS[0]:
             self.line_1.show()
             self.line_2.show()
@@ -131,10 +139,22 @@ class Stave:
             self.line_4.show()
 
         (direction, y) = position
+        half_y = y
         if direction == "up":
             self.note_1.show()
             self.view.move(self.note_1, 133, y)
+            half_y = y + 28
         else:
             self.note_2.show()
             self.view.move(self.note_2, 133, y)
+            half_y = y - 5
+            
+        half = note[1:2]
+        if half == "#":
+            self.sharp.show()
+            self.view.move(self.sharp, 115, half_y)
+            
+        if half == "b":
+            self.flat.show()
+            self.view.move(self.flat, 115, half_y - 7)
 
