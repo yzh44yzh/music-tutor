@@ -41,5 +41,6 @@ vb.pack_start(_keyboard.view, False)
 
 w.add(vb)
 w.show_all()
+_stave.clear()
 
 gtk.main()
