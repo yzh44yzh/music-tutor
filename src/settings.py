@@ -12,10 +12,21 @@ class Settings:
         cb = gtk.CheckButton("Show notes on keyboard")
         cb.set_active(True)
         cb.connect("toggled", self.__onChange, None)
-        cb.set_border_width(10)
+
+        lb = gtk.Label("Language:")
+        lb.set_alignment(0, 0)
+        rbEn = gtk.RadioButton(None, "English")
+        rbRu = gtk.RadioButton(rbEn, u"Русский")
+
+        vb = gtk.VBox(False, 5)
+        vb.set_border_width(10)
+        vb.pack_start(cb, expand=False)
+        vb.pack_start(lb, expand=False)
+        vb.pack_start(rbEn, expand=False)
+        vb.pack_start(rbRu, expand=False)
 
         self.view = gtk.Frame("Settings")
-        self.view.add(cb)
+        self.view.add(vb)
 
     def __onChange(self, widget, data=None):
         self.callback(widget.get_active())

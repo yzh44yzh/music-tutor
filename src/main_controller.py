@@ -12,7 +12,7 @@ class MainController:
 
     def init(self, staveInst, keyboardInst, settingsInst):
         self.stave = staveInst
-        self.keyboard = staveInst
+        self.keyboard = keyboardInst
         self.settings = settingsInst
 
     def onChangeSettings(self, showNotes):
