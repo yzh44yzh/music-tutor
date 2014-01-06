@@ -21,11 +21,11 @@ w.set_border_width(10)
 w.connect("delete_event", onClose)
 
 _controller = main_controller.MainController()
-_task = task.Task()
+_task = task.Task(_controller.start)
 _stave = stave.Stave()
 _settings = settings.Settings(_controller.onChangeSettings)
 _keyboard = keyboard.Keyboard(_controller.onNote)
-_controller.init(_stave, _keyboard, _settings)
+_controller.init(_task, _stave, _keyboard, _settings)
 
 hb = gtk.HBox(False, 10)
 hb.pack_start(_task.view, expand=False)
