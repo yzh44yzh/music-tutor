@@ -4,58 +4,25 @@ import pygtk
 pygtk.require("2.0")
 import gtk
 
-POS = (("up", 65),
-       ("up", 59),
-       ("up", 53),
-       ("up", 47),
-       ("up", 41),
-       ("up", 35),
-       ("up", 29),
-       ("up", 23),
-       ("down", 51),
-       ("down", 45),
-       ("down", 39),
-       ("down", 33),
-       ("down", 27),
-       ("down", 21),
-       ("down", 15),
-       ("down", 9))
+POS = (("up", 77), ("up", 71), ("up", 65), ("up", 59), ("up", 53),
+       ("up", 47), ("up", 41), ("up", 35), ("up", 29), ("up", 23),
+       ("down", 51), ("down", 45), ("down", 39), ("down", 33),
+       ("down", 27), ("down", 21), ("down", 15), ("down", 9))
 
-NOTE_POSITIONS = {(1, "C"): POS[6],
-                  (1, "D"): POS[7],
-                  (1, "E"): POS[8],
-                  (1, "F"): POS[9],
-                  (1, "G"): POS[10],
-                  (1, "A"): POS[11],
-                  (1, "B"): POS[12],
-                  (2, "C"): POS[6], 
-                  (2, "D"): POS[7],
-                  (2, "E"): POS[8],
-                  (2, "F"): POS[9],
-                  (2, "G"): POS[10],
-                  (2, "A"): POS[11],
-                  (2, "B"): POS[12],
-                  (3, "C"): POS[1],
-                  (3, "D"): POS[2],
-                  (3, "E"): POS[3],
-                  (3, "F"): POS[4],
-                  (3, "G"): POS[5],
-                  (3, "A"): POS[6],
-                  (3, "B"): POS[7],
-                  (4, "C"): POS[8],
-                  (4, "D"): POS[9],
-                  (4, "E"): POS[10],
-                  (4, "F"): POS[11],
-                  (4, "G"): POS[12],
-                  (4, "A"): POS[13],
-                  (4, "B"): POS[14],
-                  (5, "C"): POS[15],
-                  (5, "D"): POS[9],
-                  (5, "E"): POS[10],
-                  (5, "F"): POS[11],
-                  (5, "G"): POS[12],
-                  (5, "A"): POS[13],
-                  (5, "B"): POS[14]}
+BASS_POS = {(1, "C"): POS[8], (1, "D"): POS[9], (1, "E"): POS[10], (1, "F"): POS[11],
+            (1, "G"): POS[12], (1, "A"): POS[13], (1, "B"): POS[14],
+            (2, "C"): POS[8], (2, "D"): POS[9], (2, "E"): POS[10], (2, "F"): POS[11],
+            (2, "G"): POS[12], (2, "A"): POS[13], (2, "B"): POS[14],
+            (3, "C"): POS[15], (3, "D"): POS[16], (3, "E"): POS[17]}
+
+TREBLE_POS = {(2, "A"): POS[1], (2, "B"): POS[2],
+              (3, "C"): POS[3], (3, "D"): POS[4], (3, "E"): POS[5], (3, "F"): POS[6],
+              (3, "G"): POS[7], (3, "A"): POS[8], (3, "B"): POS[9],
+              (4, "C"): POS[10], (4, "D"): POS[11], (4, "E"): POS[12], (4, "F"): POS[13],
+              (4, "G"): POS[14], (4, "A"): POS[15], (4, "B"): POS[16],
+              (5, "C"): POS[17], (5, "D"): POS[11], (5, "E"): POS[12], (5, "F"): POS[13],
+              (5, "G"): POS[14], (5, "A"): POS[15], (5, "B"): POS[16]}
+
 
 class Stave:
     
@@ -117,24 +84,27 @@ class Stave:
         self.clear()
         if octave == 1 or (octave == 5 and note != "C"):
             self.lb8va.show()
-            
-        if octave < 3:
-            self.bass_clef.show()
-        else:
-            self.treble_clef.show()
 
-        position = NOTE_POSITIONS[(octave, note[0:1])]
-        if position == POS[0]:
+        key = (octave, note[0:1])
+        position = POS[0]
+        if key in TREBLE_POS:
+            position = TREBLE_POS[key]
+            self.treble_clef.show()
+        elif key in BASS_POS:
+            position = BASS_POS[key]
+            self.bass_clef.show()
+
+        if position == POS[0] or position == POS[1]:
             self.line_1.show()
             self.line_2.show()
             
-        if position == POS[1]:
+        if position == POS[2] or position == POS[3]:
             self.line_2.show()
 
-        if position == POS[13] or position == POS[14]:
+        if position == POS[15] or position == POS[16]:
             self.line_3.show()
 
-        if position == POS[15]:
+        if position == POS[17]:
             self.line_3.show()
             self.line_4.show()
 
