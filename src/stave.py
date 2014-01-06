@@ -79,19 +79,24 @@ class Stave:
         self.flat.set_from_file("assets/img/flat.png")
         self.lb8va = gtk.Label("8va")
 
-        self.view = gtk.Fixed()
-        self.view.put(self.staveBg, 0, 0)
-        self.view.put(self.treble_clef, 10, 20)
-        self.view.put(self.bass_clef, 10, 38)
-        self.view.put(self.line_1, 130, 111)
-        self.view.put(self.line_2, 130, 99)
-        self.view.put(self.line_3, 130, 27)
-        self.view.put(self.line_4, 130, 15)
-        self.view.put(self.note_1, 10, 20)
-        self.view.put(self.note_2, 10, 20)
-        self.view.put(self.sharp, 0, 0)
-        self.view.put(self.flat, 0, 0)
-        self.view.put(self.lb8va, 0, 0)
+        self.fx = gtk.Fixed()
+        self.fx.put(self.staveBg, 0, 0)
+        self.fx.put(self.treble_clef, 10, 20)
+        self.fx.put(self.bass_clef, 10, 38)
+        self.fx.put(self.line_1, 130, 111)
+        self.fx.put(self.line_2, 130, 99)
+        self.fx.put(self.line_3, 130, 27)
+        self.fx.put(self.line_4, 130, 15)
+        self.fx.put(self.note_1, 10, 20)
+        self.fx.put(self.note_2, 10, 20)
+        self.fx.put(self.sharp, 0, 0)
+        self.fx.put(self.flat, 0, 0)
+        self.fx.put(self.lb8va, 0, 0)
+
+        al = gtk.Alignment(0.5, 0.5)
+        al.add(self.fx)
+        self.view = gtk.Frame("Stave")
+        self.view.add(al)
 
     def clear(self):
         self.treble_clef.hide()
@@ -138,18 +143,18 @@ class Stave:
         half_y = y
         if direction == "up":
             self.note_1.show()
-            self.view.move(self.note_1, 133, y)
+            self.fx.move(self.note_1, 133, y)
             half_y = y + 28
         else:
             self.note_2.show()
-            self.view.move(self.note_2, 133, y)
+            self.fx.move(self.note_2, 133, y)
             half_y = y - 5
 
         half = note[1:2]
         if half == "#":
             self.sharp.show()
-            self.view.move(self.sharp, 115, half_y)
+            self.fx.move(self.sharp, 115, half_y)
 
         if half == "b":
             self.flat.show()
-            self.view.move(self.flat, 115, half_y - 7)
+            self.fx.move(self.flat, 115, half_y - 7)

@@ -26,6 +26,7 @@ class Settings:
         vb.pack_start(rbRu, expand=False)
 
         self.view = gtk.Frame("Settings")
+        self.view.set_size_request(250, 230)
         self.view.add(vb)
 
     def __onChange(self, widget, data=None):
