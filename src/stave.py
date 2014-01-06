@@ -9,23 +9,51 @@ POS = (("up", 77), ("up", 71), ("up", 65), ("up", 59), ("up", 53),
        ("down", 51), ("down", 45), ("down", 39), ("down", 33),
        ("down", 27), ("down", 21), ("down", 15), ("down", 9))
 
-BASS_POS = {(1, "C"): POS[8], (1, "D"): POS[9], (1, "E"): POS[10], (1, "F"): POS[11],
-            (1, "G"): POS[12], (1, "A"): POS[13], (1, "B"): POS[14],
-            (2, "C"): POS[8], (2, "D"): POS[9], (2, "E"): POS[10], (2, "F"): POS[11],
-            (2, "G"): POS[12], (2, "A"): POS[13], (2, "B"): POS[14],
-            (3, "C"): POS[15], (3, "D"): POS[16], (3, "E"): POS[17]}
+BASS_POS = {(1, "C"): POS[8],
+            (1, "D"): POS[9],
+            (1, "E"): POS[10],
+            (1, "F"): POS[11],
+            (1, "G"): POS[12],
+            (1, "A"): POS[13],
+            (1, "B"): POS[14],
+            (2, "C"): POS[8],
+            (2, "D"): POS[9],
+            (2, "E"): POS[10],
+            (2, "F"): POS[11],
+            (2, "G"): POS[12],
+            (2, "A"): POS[13],
+            (2, "B"): POS[14],
+            (3, "C"): POS[15],
+            (3, "D"): POS[16],
+            (3, "E"): POS[17]}
 
-TREBLE_POS = {(2, "A"): POS[1], (2, "B"): POS[2],
-              (3, "C"): POS[3], (3, "D"): POS[4], (3, "E"): POS[5], (3, "F"): POS[6],
-              (3, "G"): POS[7], (3, "A"): POS[8], (3, "B"): POS[9],
-              (4, "C"): POS[10], (4, "D"): POS[11], (4, "E"): POS[12], (4, "F"): POS[13],
-              (4, "G"): POS[14], (4, "A"): POS[15], (4, "B"): POS[16],
-              (5, "C"): POS[17], (5, "D"): POS[11], (5, "E"): POS[12], (5, "F"): POS[13],
-              (5, "G"): POS[14], (5, "A"): POS[15], (5, "B"): POS[16]}
+TREBLE_POS = {(2, "A"): POS[1],
+              (2, "B"): POS[2],
+              (3, "C"): POS[3],
+              (3, "D"): POS[4],
+              (3, "E"): POS[5],
+              (3, "F"): POS[6],
+              (3, "G"): POS[7],
+              (3, "A"): POS[8],
+              (3, "B"): POS[9],
+              (4, "C"): POS[10],
+              (4, "D"): POS[11],
+              (4, "E"): POS[12],
+              (4, "F"): POS[13],
+              (4, "G"): POS[14],
+              (4, "A"): POS[15],
+              (4, "B"): POS[16],
+              (5, "C"): POS[17],
+              (5, "D"): POS[11],
+              (5, "E"): POS[12],
+              (5, "F"): POS[13],
+              (5, "G"): POS[14],
+              (5, "A"): POS[15],
+              (5, "B"): POS[16]}
 
 
 class Stave:
-    
+
     def __init__(self):
         self.staveBg = gtk.Image()
         self.staveBg.set_from_file("assets/img/stave.png")
@@ -65,7 +93,6 @@ class Stave:
         self.view.put(self.flat, 0, 0)
         self.view.put(self.lb8va, 0, 0)
 
-
     def clear(self):
         self.treble_clef.hide()
         self.bass_clef.hide()
@@ -79,7 +106,6 @@ class Stave:
         self.flat.hide()
         self.lb8va.hide()
 
-        
     def showNote(self, (octave, note)):
         self.clear()
         if octave == 1 or (octave == 5 and note != "C"):
@@ -97,7 +123,7 @@ class Stave:
         if position == POS[0] or position == POS[1]:
             self.line_1.show()
             self.line_2.show()
-            
+
         if position == POS[2] or position == POS[3]:
             self.line_2.show()
 
@@ -118,13 +144,12 @@ class Stave:
             self.note_2.show()
             self.view.move(self.note_2, 133, y)
             half_y = y - 5
-            
+
         half = note[1:2]
         if half == "#":
             self.sharp.show()
             self.view.move(self.sharp, 115, half_y)
-            
+
         if half == "b":
             self.flat.show()
             self.view.move(self.flat, 115, half_y - 7)
-

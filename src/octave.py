@@ -24,10 +24,9 @@ class Octave:
         self.view.put(whites, 0, 0)
         self.view.put(blacks, 0, 0)
 
-
     def __createBtn(self, color, note):
-        b =  gtk.Button()
-        l = gtk.Label() 
+        b = gtk.Button()
+        l = gtk.Label()
         fx = gtk.Fixed()
         self.__labels.append(l)
 
@@ -43,20 +42,18 @@ class Octave:
             l.modify_fg(gtk.STATE_NORMAL, WHITE_CLR)
             l.modify_fg(gtk.STATE_PRELIGHT, WHITE_CLR)
             fx.put(l, 0, 35)
-        
+
         b.add(fx)
         b.modify_bg(gtk.STATE_NORMAL, color)
         b.modify_bg(gtk.STATE_PRELIGHT, color)
         b.connect("clicked", self.callback, (self.num, note))
         return b
 
-
-    def __createRow(self, keys, color, spacing = 2):
+    def __createRow(self, keys, color, spacing=2):
         btns = [self.__createBtn(color, note) for note in keys]
         hb = gtk.HBox(False, spacing)
         [hb.pack_start(b, expand=False) for b in btns]
         return hb
-
 
     def __createBlacks(self):
         row1 = self.__createRow(BLACK_KEYS_1, BLACK_CLR, 6)
@@ -65,7 +62,6 @@ class Octave:
         fx.put(row1, 16, 0)
         fx.put(row2, 32 * 3 + 16, 0)
         return fx
-
 
     def showNotes(self, show):
         if show:

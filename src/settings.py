@@ -7,7 +7,6 @@ import gtk
 
 class Settings:
 
-
     def __init__(self, callback):
         self.callback = callback
         cb = gtk.CheckButton("Show notes on keyboard")
@@ -18,7 +17,5 @@ class Settings:
         self.view = gtk.Frame("Settings")
         self.view.add(cb)
 
-
-    def __onChange(self, widget, data = None):
+    def __onChange(self, widget, data=None):
         self.callback(widget.get_active())
-

@@ -10,7 +10,7 @@ import stave
 import keyboard
 
 
-def onClose(widget, event, data = None):
+def onClose(widget, event, data=None):
     gtk.main_quit()
     return False
 
