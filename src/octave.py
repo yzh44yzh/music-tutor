@@ -8,9 +8,14 @@ WHITE_CLR = gtk.gdk.Color(red=65535, green=65535, blue=65535)
 BLACK_CLR = gtk.gdk.Color(red=0, green=0, blue=0)
 
 WHITE_KEYS = ("C", "D", "E", "F", "G", "A", "B")
-BLACK_KEYS_1 = ("C#", "Eb")
-BLACK_KEYS_2 = ("F#", "Ab", "Bb")
+BLACK_KEYS_1 = ("C#", "D#")
+BLACK_KEYS_2 = ("F#", "G#", "A#")
 
+MATCHING_KEYS = {"C#": "Db",
+                 "D#": "Eb",
+                 "F#": "Gb",
+                 "G#": "Ab",
+                 "A#": "Bb"}
 
 class Octave:
 

@@ -4,6 +4,7 @@ import task
 import stave
 import keyboard
 import settings
+import octave
 
 
 class MainController:
@@ -27,13 +28,23 @@ class MainController:
 
     def onNote(self, note):
         if note == self.currNote:
+            self.__nextNote()
+        else:
+            (oc, key) = note
+            if key in octave.MATCHING_KEYS:
+                note = (oc, octave.MATCHING_KEYS[key])
+            if note == self.currNote:
+                self.__nextNote()
+            else:
+                print("Error: need %s but got %s" % (self.currNote, note))
+                self.notifyError()
+
+    def __nextNote(self):
             nextNote = self.task.nextNote()
             while nextNote == self.currNote:
                 nextNote = self.task.nextNote()
             self.currNote = nextNote
             self.stave.showNote(self.currNote)
-        else:
-            self.notifyError()
 
     def notifyError(self):
         # TODO
