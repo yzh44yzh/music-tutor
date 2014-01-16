@@ -5,6 +5,7 @@ import stave
 import keyboard
 import settings
 import octave
+from os import system
 
 
 class MainController:
@@ -47,5 +48,5 @@ class MainController:
             self.stave.showNote(self.currNote)
 
     def notifyError(self):
-        # TODO
+        system("mplayer assets/sound/error.wav > /dev/null 2>&1")
         pass
