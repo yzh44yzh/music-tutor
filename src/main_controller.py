@@ -51,9 +51,6 @@ class MainController:
             nextNote = self.task.nextNote()
         self.currNote = nextNote
         self.stave.showNote(self.currNote)
-        print("read note")
-        note = self.midiListener.readNote()
-        print("note: %s" % note)
 
 
     def notifyError(self):
@@ -65,24 +62,20 @@ class MainController:
 from threading import Thread
 import subprocess
 
-class MidiEventListener: #(Thread):
+class MidiEventListener(Thread):
 
     def __init__(self):
-        #Thread.__init__(self)
+        Thread.__init__(self)
         self.__midiData = None
         print("create MidiEventListener")
 
 
-    # def run(self):
-    def start(self):
+    def run(self):
         print("run MidiEventListener")
         cmd = "aseqdump -p 20:0"
         self.__midiData = subprocess.Popen(cmd, shell = True, stdout = subprocess.PIPE)
-
-
-    def readNote(self):
         while True:
             event = self.__midiData.stdout.readline()
             if "Note on" in event:
-                print "note event"
-                return event
+                print "note event %s" % event
+                # dispatch event

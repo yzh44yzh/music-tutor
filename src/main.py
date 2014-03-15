@@ -40,4 +40,7 @@ w.add(vb)
 w.show_all()
 _stave.clear()
 
+gtk.gdk.threads_init()
+gtk.gdk.threads_enter()
 gtk.main()
+gtk.gdk.threads_leave()
