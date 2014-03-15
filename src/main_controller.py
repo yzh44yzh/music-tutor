@@ -87,6 +87,13 @@ class MidiEventListener(threading.Thread):
                 print "note event %s" % event
                 # TODO parse event, create Note object
                 # 20:0   Note on                 0, note 62, velocity 66
+                #  1C - 36
+                #  2C - 48
+                #  3C - 60
+                #  4C - 72
+                #  5C - 84
+                #    37  39     42  44  46
+                #  36  38  40 41  43  45  47 48
                 note = (3, "C")
                 self.controller.onNote(note)
 
