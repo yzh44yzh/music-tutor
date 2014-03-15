@@ -19,7 +19,7 @@ class MainController:
         self.stave = staveInst
         self.keyboard = keyboardInst
         self.settings = settingsInst
-        self.midiListener = MidiEventListener()
+        self.midiListener = MidiEventListener(self)
         self.midiListener.start()
 
 
@@ -68,24 +68,28 @@ import subprocess
 
 class MidiEventListener(threading.Thread):
 
-    def __init__(self):
+    def __init__(self, controller):
         threading.Thread.__init__(self)
+        self.controller = controller
         self.__midiData = None
-        self.needStop = threading.Event()
+        self.__needStop = threading.Event()
 
 
     def run(self):
         self.__midiData = subprocess.Popen(["aseqdump", "-p", "20:0"], stdout = subprocess.PIPE)
         while True:
-            if(self.needStop.isSet()):
-                self.needStop.clear()
+            if(self.__needStop.isSet()):
+                self.__needStop.clear()
                 self.__midiData.terminate()
                 break
             event = self.__midiData.stdout.readline()
             if "Note on" in event:
                 print "note event %s" % event
-                # TODO dispatch event
+                # TODO parse event, create Note object
+                # 20:0   Note on                 0, note 62, velocity 66
+                note = (3, "C")
+                self.controller.onNote(note)
 
 
     def stop(self):
-        self.needStop.set()
+        self.__needStop.set()
