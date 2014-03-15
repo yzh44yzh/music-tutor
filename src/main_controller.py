@@ -58,24 +58,34 @@ class MainController:
         system("mplayer assets/sound/error.wav > /dev/null 2>&1")
         pass
 
+    def onClose(self):
+        self.midiListener.stop()
 
-from threading import Thread
+
+
+import threading
 import subprocess
 
-class MidiEventListener(Thread):
+class MidiEventListener(threading.Thread):
 
     def __init__(self):
-        Thread.__init__(self)
+        threading.Thread.__init__(self)
         self.__midiData = None
-        print("create MidiEventListener")
+        self.needStop = threading.Event()
 
 
     def run(self):
-        print("run MidiEventListener")
-        cmd = "aseqdump -p 20:0"
-        self.__midiData = subprocess.Popen(cmd, shell = True, stdout = subprocess.PIPE)
+        self.__midiData = subprocess.Popen(["aseqdump", "-p", "20:0"], stdout = subprocess.PIPE)
         while True:
+            if(self.needStop.isSet()):
+                self.needStop.clear()
+                self.__midiData.terminate()
+                break
             event = self.__midiData.stdout.readline()
             if "Note on" in event:
                 print "note event %s" % event
-                # dispatch event
+                # TODO dispatch event
+
+
+    def stop(self):
+        self.needStop.set()

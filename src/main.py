@@ -12,6 +12,7 @@ import keyboard
 
 
 def onClose(widget, event, data=None):
+    _controller.onClose()
     gtk.main_quit()
     return False
 
