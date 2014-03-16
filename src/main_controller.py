@@ -5,6 +5,7 @@ import stave
 import keyboard
 import settings
 import octave
+import notes
 from os import system
 
 class MainController:
@@ -32,12 +33,13 @@ class MainController:
 
 
     def onNote(self, note):
+        print("note %s %s" % note)
         if note == self.currNote:
             self.__nextNote()
         else:
             (oc, key) = note
-            if key in octave.MATCHING_KEYS:
-                note = (oc, octave.MATCHING_KEYS[key])
+            if key in notes.MATCHING_KEYS:
+                note = (oc, notes.MATCHING_KEYS[key])
             if note == self.currNote:
                 self.__nextNote()
             else:
@@ -63,6 +65,7 @@ class MainController:
 
 
 
+import string
 import threading
 import subprocess
 
@@ -84,17 +87,10 @@ class MidiEventListener(threading.Thread):
                 break
             event = self.__midiData.stdout.readline()
             if "Note on" in event:
-                print "note event %s" % event
-                # TODO parse event, create Note object
-                # 20:0   Note on                 0, note 62, velocity 66
-                #  1C - 36
-                #  2C - 48
-                #  3C - 60
-                #  4C - 72
-                #  5C - 84
-                #    37  39     42  44  46
-                #  36  38  40 41  43  45  47 48
-                note = (3, "C")
+                # event is "20:0   Note on                 0, note 62, velocity 66"
+                s1 = string.split(event, ",")[1] # " note 62"
+                s2 = string.split(s1, " ")[2]    # "62"
+                note = notes.parse(int(s2))
                 self.controller.onNote(note)
 
 

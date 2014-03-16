@@ -3,19 +3,11 @@
 import pygtk
 pygtk.require("2.0")
 import gtk
+import notes
 
 WHITE_CLR = gtk.gdk.Color(red=65535, green=65535, blue=65535)
 BLACK_CLR = gtk.gdk.Color(red=0, green=0, blue=0)
 
-WHITE_KEYS = ("C", "D", "E", "F", "G", "A", "B")
-BLACK_KEYS_1 = ("C#", "D#")
-BLACK_KEYS_2 = ("F#", "G#", "A#")
-
-MATCHING_KEYS = {"C#": "Db",
-                 "D#": "Eb",
-                 "F#": "Gb",
-                 "G#": "Ab",
-                 "A#": "Bb"}
 
 class Octave:
 
@@ -23,7 +15,7 @@ class Octave:
         self.num = num
         self.callback = callback
         self.__labels = []
-        whites = self.__createRow(WHITE_KEYS, WHITE_CLR)
+        whites = self.__createRow(notes.WHITE_KEYS, WHITE_CLR)
         blacks = self.__createBlacks()
         self.view = gtk.Fixed()
         self.view.put(whites, 0, 0)
@@ -61,8 +53,8 @@ class Octave:
         return hb
 
     def __createBlacks(self):
-        row1 = self.__createRow(BLACK_KEYS_1, BLACK_CLR, 6)
-        row2 = self.__createRow(BLACK_KEYS_2, BLACK_CLR, 6)
+        row1 = self.__createRow(notes.BLACK_KEYS_1, BLACK_CLR, 6)
+        row2 = self.__createRow(notes.BLACK_KEYS_2, BLACK_CLR, 6)
         fx = gtk.Fixed()
         fx.put(row1, 16, 0)
         fx.put(row2, 32 * 3 + 16, 0)
