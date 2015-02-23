@@ -7,6 +7,7 @@ import settings
 import octave
 import notes
 from os import system
+import pygame
 
 class MainController:
 
@@ -15,6 +16,7 @@ class MainController:
 
 
     def init(self, taskInst, staveInst, keyboardInst, settingsInst):
+        pygame.init()
         self.currNote = None
         self.task = taskInst
         self.stave = staveInst
@@ -22,6 +24,8 @@ class MainController:
         self.settings = settingsInst
         self.midiListener = MidiEventListener(self)
         self.midiListener.start()
+        self.okSound = pygame.mixer.Sound('assets/sound/ok.wav')
+        self.errorSound = pygame.mixer.Sound('assets/sound/error.wav')
 
 
     def start(self):
@@ -35,12 +39,14 @@ class MainController:
     def onNote(self, note):
         print("note %s %s" % note)
         if note == self.currNote:
+            self.okSound.play() # TODO play note
             self.__nextNote()
         else:
             (oc, key) = note
             if key in notes.MATCHING_KEYS:
                 note = (oc, notes.MATCHING_KEYS[key])
             if note == self.currNote:
+                self.okSound.play() # TODO play note
                 self.__nextNote()
             else:
                 print("Error: need %s but got %s" % (self.currNote, note))
@@ -56,9 +62,8 @@ class MainController:
 
 
     def notifyError(self):
-        # TODO need a better way to play sound :)
-        system("mplayer assets/sound/error.wav > /dev/null 2>&1")
-        pass
+        self.errorSound.play()
+
 
     def onClose(self):
         self.midiListener.stop()

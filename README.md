@@ -21,6 +21,7 @@
 Зависимости:
  - Python 2.7
  - pygtk 2.0
+ - pygame
  - aseqdump
 
 
