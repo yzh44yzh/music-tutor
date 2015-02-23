@@ -24,6 +24,7 @@ class Task:
     def __init__(self, callback):
         self.currTask = TASKS[0][0]
         self.callback = callback
+
         vb = gtk.VBox(False, 5)
         vb.set_border_width(10)
         radio = None
@@ -53,17 +54,12 @@ class Task:
         self.currTask = data
 
     def __start(self, widget):
+        self.btnStart.set_label("Stop")
         self.callback()
 
     def nextNote(self):
         octave = 1
-        if self.currTask in ("w2", "b2"):
-            octave = 2
-        elif self.currTask in ("w3", "b3"):
-            octave = 3
-        elif self.currTask in ("w4", "b4"):
-            octave = 4
-        elif self.currTask in ("wl", "bl"):
+        if self.currTask in ("wl", "bl"):
             octave = random.randint(1, 2)
         elif self.currTask in ("wr", "br"):
             octave = random.randint(3, 5)
@@ -79,3 +75,7 @@ class Task:
             note = random.choice(BLACK_NOTES)
 
         return (octave, note)
+
+
+    def clear(self):
+        self.btnStart.set_label("Start")

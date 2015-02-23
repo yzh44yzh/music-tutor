@@ -95,10 +95,21 @@ class Stave:
 
         al = gtk.Alignment(0.5, 0.5)
         al.add(self.fx)
+
+        self.progress = gtk.Label("")
+        self.progress.set_alignment(0, 0)
+
+        vb = gtk.VBox(False, 1)
+        vb.set_border_width(10)
+        vb.add(self.progress)
+        vb.add(al)
+
         self.view = gtk.Frame("Stave")
-        self.view.add(al)
+        self.view.add(vb)
+
 
     def clear(self):
+        self.progress.set_text("")
         self.treble_clef.hide()
         self.bass_clef.hide()
         self.line_1.hide()
@@ -111,8 +122,11 @@ class Stave:
         self.flat.hide()
         self.lb8va.hide()
 
-    def showNote(self, (octave, note)):
+
+    def update(self, (octave, note), noteCounter, maxNotes):
         self.clear()
+        self.progress.set_text("Note %d of %d" % (noteCounter, maxNotes))
+
         if octave == 1 or (octave == 5 and note != "C"):
             self.lb8va.show()
 

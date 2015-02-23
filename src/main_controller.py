@@ -18,6 +18,9 @@ class MainController:
     def init(self, taskInst, staveInst, keyboardInst, settingsInst):
         pygame.init()
         self.currNote = None
+        self.noteCounter = 0
+        self.maxNotes = 5 # 50
+
         self.task = taskInst
         self.stave = staveInst
         self.keyboard = keyboardInst
@@ -29,7 +32,17 @@ class MainController:
 
 
     def start(self):
-        self.__nextNote()
+        if(self.currNote is None):
+            self.__nextNote()
+        else:
+            self.stop()
+
+
+    def stop(self):
+        self.noteCounter = 0
+        self.currNote = None
+        self.stave.clear()
+        self.task.clear()
 
 
     def onChangeSettings(self, showNotes):
@@ -37,28 +50,37 @@ class MainController:
 
 
     def onNote(self, note):
+        if self.currNote is None: return
+
         print("note %s %s" % note)
+
         if note == self.currNote:
-            self.okSound.play() # TODO play note
             self.__nextNote()
         else:
             (oc, key) = note
             if key in notes.MATCHING_KEYS:
                 note = (oc, notes.MATCHING_KEYS[key])
             if note == self.currNote:
-                self.okSound.play() # TODO play note
                 self.__nextNote()
             else:
                 print("Error: need %s but got %s" % (self.currNote, note))
                 self.notifyError()
 
 
+
     def __nextNote(self):
+        self.okSound.play() # TODO play note
+
         nextNote = self.task.nextNote()
         while nextNote == self.currNote:
             nextNote = self.task.nextNote()
         self.currNote = nextNote
-        self.stave.showNote(self.currNote)
+
+        self.noteCounter += 1
+        if self.noteCounter > self.maxNotes:
+            self.stop()
+        else:
+            self.stave.update(self.currNote, self.noteCounter, self.maxNotes)
 
 
     def notifyError(self):
