@@ -6,17 +6,11 @@ import gtk
 import random
 
 
-TASKS = (("w3", "White keys, 3rd octave"),
-         ("w4", "White keys, 4th octave"),
-         ("w2", "White keys, 2nd octave"),
+TASKS = (("wr", "White keys, right hand"),
          ("wl", "White keys, left hand"),
-         ("wr", "White keys, right hand"),
          ("wa", "All white keys"),
-         ("b3", "Black keys, 3rd octave"),
-         ("b4", "Black keys, 4th octave"),
-         ("b2", "Black keys, 2nd octave"),
-         ("bl", "Black keys, left hand"),
          ("br", "Black keys, right hand"),
+         ("bl", "Black keys, left hand"),
          ("ba", "All black keys"),
          ("all", "All keys"))
 
