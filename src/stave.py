@@ -107,7 +107,6 @@ class Stave:
         self.view = gtk.Frame("Stave")
         self.view.add(vb)
 
-
     def clear(self):
         self.progress.set_text("")
         self.treble_clef.hide()
@@ -121,7 +120,6 @@ class Stave:
         self.sharp.hide()
         self.flat.hide()
         self.lb8va.hide()
-
 
     def update(self, (octave, note), noteCounter, maxNotes):
         self.clear()

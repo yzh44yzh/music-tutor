@@ -5,6 +5,7 @@ pygtk.require("2.0")
 import gtk
 import notes
 
+
 class Keyboard:
 
     def __init__(self, callback):
@@ -23,6 +24,7 @@ class Keyboard:
 
 WHITE_CLR = gtk.gdk.Color(red=65535, green=65535, blue=65535)
 BLACK_CLR = gtk.gdk.Color(red=0, green=0, blue=0)
+
 
 class Octave:
 

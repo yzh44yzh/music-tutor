@@ -14,19 +14,21 @@ TASKS = (("right_white", "right hand, whites only"),
 
 WHITE_NOTES = ("C", "D", "E", "F", "G", "A", "B")
 BLACK_NOTES = ("C#", "D#", "F#", "G#", "A#", "Db", "Eb", "Gb", "Ab", "Bb")
+ALL_NOTES = WHITE_NOTES + BLACK_NOTES
 
 NOTES = {"right_white": tuple([(2, "A"), (2, "B")]
                               + map(lambda n: (3, n), WHITE_NOTES)
                               + map(lambda n: (4, n), WHITE_NOTES)
                               + map(lambda n: (5, n), WHITE_NOTES)),
-         "right":       tuple([(2, "A"), (2, "B"), (2, "A#"), (2, "Ab"), (2, "Bb")]
-                              + map(lambda n: (3, n), WHITE_NOTES + BLACK_NOTES)
-                              + map(lambda n: (4, n), WHITE_NOTES + BLACK_NOTES)
-                              + map(lambda n: (5, n), WHITE_NOTES + BLACK_NOTES)),
+         "right":       tuple([(2, "A"), (2, "B"),
+                               (2, "A#"), (2, "Ab"), (2, "Bb")]
+                              + map(lambda n: (3, n), ALL_NOTES)
+                              + map(lambda n: (4, n), ALL_NOTES)
+                              + map(lambda n: (5, n), ALL_NOTES)),
          "left_white":  tuple(map(lambda n: (1, n), WHITE_NOTES)
                               + map(lambda n: (2, n), WHITE_NOTES)),
-         "left":        tuple(map(lambda n: (3, n), WHITE_NOTES + BLACK_NOTES)
-                              + map(lambda n: (4, n), WHITE_NOTES + BLACK_NOTES))}
+         "left":        tuple(map(lambda n: (3, n), ALL_NOTES)
+                              + map(lambda n: (4, n), ALL_NOTES))}
 
 
 class Task:
@@ -74,7 +76,6 @@ class Task:
         else:
             notes = NOTES[self.currTask]
         return random.choice(notes)
-
 
     def clear(self):
         self.btnStart.set_label("Start")

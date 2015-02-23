@@ -9,17 +9,17 @@ import notes
 from os import system
 import pygame
 
+
 class MainController:
 
     def __init__(self):
         pass
 
-
     def init(self, taskInst, staveInst, keyboardInst, settingsInst):
         pygame.init()
         self.currNote = None
         self.noteCounter = 0
-        self.maxNotes = 5 # 50
+        self.maxNotes = 50
 
         self.task = taskInst
         self.stave = staveInst
@@ -30,13 +30,11 @@ class MainController:
         self.okSound = pygame.mixer.Sound('assets/sound/ok.wav')
         self.errorSound = pygame.mixer.Sound('assets/sound/error.wav')
 
-
     def start(self):
         if(self.currNote is None):
             self.__nextNote()
         else:
             self.stop()
-
 
     def stop(self):
         self.noteCounter = 0
@@ -44,13 +42,12 @@ class MainController:
         self.stave.clear()
         self.task.clear()
 
-
     def onChangeSettings(self, showNotes):
         self.keyboard.showNotes(showNotes)
 
-
     def onNote(self, note):
-        if self.currNote is None: return
+        if self.currNote is None:
+            return
 
         print("note %s %s" % note)
 
@@ -66,10 +63,8 @@ class MainController:
                 print("Error: need %s but got %s" % (self.currNote, note))
                 self.notifyError()
 
-
-
     def __nextNote(self):
-        self.okSound.play() # TODO play note
+        self.okSound.play()  # TODO play note
 
         nextNote = self.task.nextNote()
         while nextNote == self.currNote:
@@ -82,19 +77,17 @@ class MainController:
         else:
             self.stave.update(self.currNote, self.noteCounter, self.maxNotes)
 
-
     def notifyError(self):
         self.errorSound.play()
-
 
     def onClose(self):
         self.midiListener.stop()
 
 
-
 import string
 import threading
 import subprocess
+
 
 class MidiEventListener(threading.Thread):
 
@@ -104,9 +97,9 @@ class MidiEventListener(threading.Thread):
         self.__midiData = None
         self.__needStop = threading.Event()
 
-
     def run(self):
-        self.__midiData = subprocess.Popen(["aseqdump", "-p", "20:0"], stdout = subprocess.PIPE)
+        self.__midiData = subprocess.Popen(["aseqdump", "-p", "20:0"],
+                                           stdout=subprocess.PIPE)
         while True:
             if(self.__needStop.isSet()):
                 self.__needStop.clear()
@@ -114,12 +107,11 @@ class MidiEventListener(threading.Thread):
                 break
             event = self.__midiData.stdout.readline()
             if "Note on" in event:
-                # event is "20:0   Note on                 0, note 62, velocity 66"
-                s1 = string.split(event, ",")[1] # " note 62"
-                s2 = string.split(s1, " ")[2]    # "62"
+                # event is "20:0   Note on 0, note 62, velocity 66"
+                s1 = string.split(event, ",")[1]  # " note 62"
+                s2 = string.split(s1, " ")[2]     # "62"
                 note = notes.parse(int(s2))
                 self.controller.onNote(note)
-
 
     def stop(self):
         self.__needStop.set()
