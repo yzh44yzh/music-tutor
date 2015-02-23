@@ -6,17 +6,27 @@ import gtk
 import random
 
 
-TASKS = (("wr", "White keys, right hand"),
-         ("wl", "White keys, left hand"),
-         ("wa", "All white keys"),
-         ("br", "Black keys, right hand"),
-         ("bl", "Black keys, left hand"),
-         ("ba", "All black keys"),
-         ("all", "All keys"))
+TASKS = (("right_white", "right hand, whites only"),
+         ("right",       "right hand"),
+         ("left_white",  "left hand, whites only"),
+         ("left",        "left hand"),
+         ("all",         "All keys"))
 
 WHITE_NOTES = ("C", "D", "E", "F", "G", "A", "B")
 BLACK_NOTES = ("C#", "D#", "F#", "G#", "A#", "Db", "Eb", "Gb", "Ab", "Bb")
-ALL_NOTES = WHITE_NOTES + BLACK_NOTES
+
+NOTES = {"right_white": tuple([(2, "A"), (2, "B")]
+                              + map(lambda n: (3, n), WHITE_NOTES)
+                              + map(lambda n: (4, n), WHITE_NOTES)
+                              + map(lambda n: (5, n), WHITE_NOTES)),
+         "right":       tuple([(2, "A"), (2, "B"), (2, "A#"), (2, "Ab"), (2, "Bb")]
+                              + map(lambda n: (3, n), WHITE_NOTES + BLACK_NOTES)
+                              + map(lambda n: (4, n), WHITE_NOTES + BLACK_NOTES)
+                              + map(lambda n: (5, n), WHITE_NOTES + BLACK_NOTES)),
+         "left_white":  tuple(map(lambda n: (1, n), WHITE_NOTES)
+                              + map(lambda n: (2, n), WHITE_NOTES)),
+         "left":        tuple(map(lambda n: (3, n), WHITE_NOTES + BLACK_NOTES)
+                              + map(lambda n: (4, n), WHITE_NOTES + BLACK_NOTES))}
 
 
 class Task:
@@ -34,7 +44,7 @@ class Task:
             vb.pack_start(radio, expand=False)
 
         scroll = gtk.ScrolledWindow()
-        scroll.set_size_request(100, 150)
+        scroll.set_size_request(100, 165)
         scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         scroll.add_with_viewport(vb)
 
@@ -47,7 +57,7 @@ class Task:
         vb2.pack_start(self.btnStart, expand=False)
 
         self.view = gtk.Frame("Task")
-        self.view.set_size_request(250, 230)
+        self.view.set_size_request(250, 245)
         self.view.add(vb2)
 
     def __onSelect(self, widget, data):
@@ -58,23 +68,12 @@ class Task:
         self.callback()
 
     def nextNote(self):
-        octave = 1
-        if self.currTask in ("wl", "bl"):
-            octave = random.randint(1, 2)
-        elif self.currTask in ("wr", "br"):
-            octave = random.randint(3, 5)
-        else:
-            octave = random.randint(1, 5)
-
-        note = ""
+        notes = ()
         if self.currTask == "all":
-            note = random.choice(ALL_NOTES)
-        elif self.currTask[0:1] == "w":
-            note = random.choice(WHITE_NOTES)
+            notes = NOTES["right"] + NOTES["left"]
         else:
-            note = random.choice(BLACK_NOTES)
-
-        return (octave, note)
+            notes = NOTES[self.currTask]
+        return random.choice(notes)
 
 
     def clear(self):
