@@ -31,7 +31,7 @@ class Octave:
     def __init__(self, num, callback):
         self.num = num
         self.callback = callback
-        self.__labels = []
+        self.__labels = {}
         whites = self.__createRow(notes.WHITE_KEYS, WHITE_CLR)
         blacks = self.__createBlacks()
         self.view = gtk.Fixed()
@@ -42,20 +42,18 @@ class Octave:
         b = gtk.Button()
         l = gtk.Label()
         fx = gtk.Fixed()
-        self.__labels.append(l)
+        self.__labels[note] = l
 
         if color == WHITE_CLR:
             b.set_size_request(30, 140)
-            l.set_label(note + str(self.num))
             l.modify_fg(gtk.STATE_NORMAL, BLACK_CLR)
             l.modify_fg(gtk.STATE_PRELIGHT, BLACK_CLR)
             fx.put(l, 0, 95)
         else:
             b.set_size_request(26, 80)
-            l.set_label(note)
             l.modify_fg(gtk.STATE_NORMAL, WHITE_CLR)
             l.modify_fg(gtk.STATE_PRELIGHT, WHITE_CLR)
-            fx.put(l, 0, 35)
+            fx.put(l, -2, 35)
 
         b.add(fx)
         b.modify_bg(gtk.STATE_NORMAL, color)
@@ -78,7 +76,11 @@ class Octave:
         return fx
 
     def showNotes(self, show):
-        if show:
-            [label.show() for label in self.__labels]
-        else:
-            [label.hide() for label in self.__labels]
+        for (note, label) in self.__labels.items():
+            if show:
+                text = note
+                if len(note) == 1:
+                    text = note + str(self.num)
+                label.set_text(text)
+            else:
+                label.set_text("")

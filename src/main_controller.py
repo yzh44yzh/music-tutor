@@ -32,6 +32,7 @@ class MainController:
 
     def start(self):
         if(self.currNote is None):
+            self.maxNotes = self.settings.num_notes_per_task()
             self.__nextNote()
         else:
             self.stop()
